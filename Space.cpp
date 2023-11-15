@@ -54,6 +54,7 @@ void Space::generateParticles(int n, int maxDist) {
 
 void Space::calculateForces() {
 
+#pragma omp parallel for collapse(2)
     for (int p1 = 0; p1 < m_numParticles/2; p1++) {
 
         for (int p2 = m_numParticles-1; p2 >= m_numParticles/2; p2--) {
@@ -126,7 +127,14 @@ void Space::BH_step(double timestep, BHTree* t) {
 
 void Space::leapfrog_init(double timestep) {
 
+  if (MODE == "BH") {
+
+    BHTree *t = new BHTree(0, 0, 1000);
+    BH_calculateForces(t);
+    delete t;
+  }else {
     calculateForces();
+  }
     leapfrog_updateall(timestep);
 }
 
