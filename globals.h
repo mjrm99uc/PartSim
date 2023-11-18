@@ -1,8 +1,8 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-//#define MODE "BH" // "BF" for brute force calculation, "BH" for Barnes-Hut approximation
-#define MODE "BF" // "BF" for brute force calculation, "BH" for Barnes-Hut approximation
+#define MODE "BH" // "BF" for brute force calculation, "BH" for Barnes-Hut approximation
+//#define MODE "BF" // "BF" for brute force calculation, "BH" for Barnes-Hut approximation
 #define COLOR_MODE "MC" // "V" for velocity-based, "MC" for random multi-color
 
 const int N_PARTS = 1200;

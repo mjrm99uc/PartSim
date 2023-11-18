@@ -26,14 +26,21 @@ auto start = chrono::steady_clock::now();
 auto last = chrono::steady_clock::now();
 
 int main(int argc, char **argv) {
-  int parst = atoi(argv[1]);
+  int number_of_particles = N_PARTS;
+  // Get the number of processors in this system
+  int iCPU = omp_get_num_procs();
+  // Check if console arguments are used
+  if (argc == 3) {
+    // Get number of particles
+    number_of_particles = atoi(argv[1]);
+
+    // Get the number of threads to use
+    iCPU = atoi(argv[2]); // omp_get_num_procs();
+  }
 
   start = chrono::steady_clock::now();
-  x.generateParticles(parst, 400);
+  x.generateParticles(number_of_particles, 400);
   x.leapfrog_init(TIME_STEP);
-
-  // Get the number of processors in this system
-  int iCPU = atoi(argv[2]); // omp_get_num_procs();
 
   // Now set the number of threads
   omp_set_num_threads(iCPU);
@@ -85,8 +92,9 @@ void renderScene(void) {
 void idle() {
   if (frames >= MAX_TIME) {
     auto end = chrono::steady_clock::now();
-    float time = (float)chrono::duration_cast<chrono::milliseconds>(end - start).count();
-    cout<<time<<endl;
+    float time =
+        (float)chrono::duration_cast<chrono::milliseconds>(end - start).count();
+    cout << time << endl;
     exit(0);
   }
 
